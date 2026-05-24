@@ -546,6 +546,25 @@
     }
 
     /* ══════════════════════════════════════
+       FORM VALIDATION
+    ══════════════════════════════════════ */
+    .fi.fi-error {
+      border-color: #EF4444 !important;
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.12) !important;
+    }
+    .field-error {
+      font-size: 0.72rem; color: #EF4444;
+      margin-top: 3px; display: none; font-weight: 600;
+    }
+    .field-error.visible { display: block; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%,60%  { transform: translateX(-5px); }
+      40%,80%  { transform: translateX(5px); }
+    }
+    .fi.shake { animation: shake 0.38s ease; }
+
+    /* ══════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════ */
     @media (max-width: 1024px) {
@@ -557,8 +576,10 @@
     @media (max-width: 768px) {
       .container { padding: 0 18px; }
       .sp { padding: 80px 0; }
-      .nav { padding: 0 18px; }
+      .nav { padding: 0 16px; height: 64px; }
       .nav-links { display: none; }
+      .nav-right { gap: 8px; }
+      .nav .btn-orange { padding: 9px 14px; font-size: 0.8rem; }
       .hero-content { grid-template-columns: 1fr; gap: 48px; }
       .hero-right { display: none; }
       .svc-head  { grid-template-columns: 1fr; gap: 20px; }
@@ -570,6 +591,14 @@
       .footer-links { flex-wrap: wrap; justify-content: center; }
       .proc-steps { grid-template-columns: 1fr; gap: 36px; }
       .lang-btn { padding: 4px 8px; font-size: 0.68rem; }
+    }
+    @media (max-width: 480px) {
+      .nav { padding: 0 14px; }
+      .nav-logo { font-size: 1.1rem; }
+      .nav-right { gap: 6px; }
+      .nav .btn-orange { padding: 8px 11px; font-size: 0.74rem; letter-spacing: -0.01em; }
+      .lang-switch { padding: 2px; gap: 2px; }
+      .lang-btn { padding: 4px 7px; font-size: 0.63rem; }
     }
 
     .fu { opacity: 0; transform: translateY(32px); }
@@ -592,7 +621,7 @@
         <button class="lang-btn"        data-lang="fr" onclick="setLang('fr')">FR</button>
         <button class="lang-btn"        data-lang="en" onclick="setLang('en')">EN</button>
       </div>
-      <a href="#apply" class="btn btn-orange" data-i18n="nav.cta">احجز مكالمة ←</a>
+      <a href="#apply-form" class="btn btn-orange" data-i18n="nav.cta">احجز مكالمة ←</a>
     </div>
   </nav>
 
@@ -618,7 +647,7 @@
           تساعد سورميديا علامات التجارة الإلكترونية على النمو والتوسع عبر إعلانات ميتا، تيك توك، وجوجل بدقة واحترافية. نحن لا نعتمد فقط على إطلاق الإعلانات، بل نقوم ببناء استراتيجيات تسويقية مدروسة، واختبار مختلف الزوايا الإعلانية، وتوسيع الحملات المربحة لتحقيق أفضل النتائج الممكنة.
         </p>
         <div class="hero-cta">
-          <a href="#apply"   class="btn btn-orange" data-i18n="hero.cta1">احجز إستشارة مجانية →</a>
+          <a href="#apply-form" class="btn btn-orange" data-i18n="hero.cta1">احجز إستشارة مجانية →</a>
           <a href="#results" class="btn btn-ghost"  data-i18n="hero.cta2">شاهد نتائجنا</a>
         </div>
         <div class="hero-note">
@@ -724,7 +753,7 @@
   <!-- MID CTA 1 -->
   <div class="mid-cta">
     <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
-    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+    <a href="#apply-form" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
   </div>
 
   <!-- ══════════════════ STATS ══════════════════ -->
@@ -762,7 +791,7 @@
   <!-- MID CTA 2 -->
   <div class="mid-cta">
     <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
-    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+    <a href="#apply-form" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
   </div>
 
   <!-- ══════════════════ SERVICES ══════════════════ -->
@@ -807,7 +836,7 @@
   <!-- MID CTA 3 -->
   <div class="mid-cta">
     <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
-    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+    <a href="#apply-form" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
   </div>
 
   <!-- ══════════════════ RESULTS / PROOF ══════════════════ -->
@@ -869,7 +898,7 @@
   <!-- MID CTA 4 -->
   <div class="mid-cta">
     <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
-    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+    <a href="#apply-form" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
   </div>
 
   <!-- ══════════════════ PROCESS ══════════════════ -->
@@ -933,28 +962,30 @@
           </div>
         </div>
 
-        <div class="cta-form fu">
+        <div class="cta-form fu" id="apply-form" style="scroll-margin-top:80px;">
           <div class="form-title"    data-i18n="form.title">احجز مكالمتك الاستراتيجية</div>
           <div class="form-subtitle" data-i18n="form.sub">لمعرفة معلومات أكثر، إملأ الاستمارة — نرد خلال 4 ساعات.</div>
           <form id="applyForm" onsubmit="handleSubmit(event)">
             <div class="form-grid">
 
-              <div class="fg">
+              <div class="fg" id="fg-firstname">
                 <label data-i18n="form.firstname.label">الاسم الأول</label>
-                <input type="text" class="fi" data-i18n-ph="form.firstname.ph" placeholder="مثال: محمد" required />
+                <input type="text" class="fi" id="fi-firstname" data-i18n-ph="form.firstname.ph" placeholder="مثال: محمد" />
+                <span class="field-error" id="err-firstname"></span>
               </div>
-              <div class="fg">
+              <div class="fg" id="fg-phone">
                 <label data-i18n="form.phone.label">رقم الهاتف</label>
-                <input type="tel" class="fi" data-i18n-ph="form.phone.ph" placeholder="+212 6XX XXX XXX" required />
+                <input type="tel" class="fi" id="fi-phone" data-i18n-ph="form.phone.ph" placeholder="+212 6XX XXX XXX" />
+                <span class="field-error" id="err-phone"></span>
               </div>
 
               <div class="fg">
                 <label data-i18n="form.instagram.label">انستغرام النشاط التجاري</label>
-                <input type="text" class="fi" data-i18n-ph="form.instagram.ph" placeholder="@علامتك_التجارية" required />
+                <input type="text" class="fi" data-i18n-ph="form.instagram.ph" placeholder="@علامتك_التجارية" />
               </div>
               <div class="fg">
                 <label data-i18n="form.website.label">الموقع الإلكتروني</label>
-                <input type="url" class="fi" data-i18n-ph="form.website.ph" placeholder="https://yourbrand.com" />
+                <input type="text" class="fi" data-i18n-ph="form.website.ph" placeholder="https://yourbrand.com" />
               </div>
 
               <div class="fg">
@@ -963,7 +994,7 @@
               </div>
               <div class="fg">
                 <label data-i18n="form.budget.label">ميزانية الإعلانات الشهرية</label>
-                <select class="fi" id="budgetSelect" required>
+                <select class="fi" id="budgetSelect">
                   <option value="" disabled selected>اختر الميزانية</option>
                   <option>أقل من 5,000 درهم/شهر</option>
                   <option>5,000 – 20,000 درهم/شهر</option>
@@ -999,7 +1030,7 @@
         <div class="footer-links">
           <a href="#services" data-i18n="footer.services">خدماتنا</a>
           <a href="#results"  data-i18n="footer.results">النتائج</a>
-          <a href="#apply"    data-i18n="footer.contact">تواصل معنا</a>
+          <a href="#apply-form" data-i18n="footer.contact">تواصل معنا</a>
           <a href="#"         data-i18n="footer.privacy">سياسة الخصوصية</a>
         </div>
       </div>
@@ -1356,11 +1387,60 @@
   /* ── Google Sheets Webhook ── */
   const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyoZbb-tO6SGQUQuIllJ9l1wqSsa_9rKAnr5wwW6jYJ5YWh6CfDm_D0qqvu3Au7gfN3/exec';
 
+  /* ── Form validation helpers ── */
+  const requiredMsg = {
+    ar: 'هذا الحقل مطلوب',
+    fr: 'Ce champ est requis',
+    en: 'This field is required'
+  };
+
+  function clearFieldError(inputEl, errEl) {
+    inputEl.classList.remove('fi-error', 'shake');
+    errEl.classList.remove('visible');
+    errEl.textContent = '';
+  }
+
+  function showFieldError(inputEl, errEl, msg) {
+    inputEl.classList.add('fi-error');
+    inputEl.classList.remove('shake');
+    void inputEl.offsetWidth; /* reflow to retrigger animation */
+    inputEl.classList.add('shake');
+    setTimeout(() => inputEl.classList.remove('shake'), 400);
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+  }
+
   /* ── Form submit ── */
   async function handleSubmit(e) {
     e.preventDefault();
     const btn  = document.querySelector('.btn-submit');
     const form = document.getElementById('applyForm');
+
+    const firstNameEl = document.getElementById('fi-firstname');
+    const phoneEl     = document.getElementById('fi-phone');
+    const errFirst    = document.getElementById('err-firstname');
+    const errPhone    = document.getElementById('err-phone');
+
+    /* Clear previous errors */
+    clearFieldError(firstNameEl, errFirst);
+    clearFieldError(phoneEl, errPhone);
+
+    /* Validate required fields */
+    let hasError = false;
+    if (!firstNameEl.value.trim()) {
+      showFieldError(firstNameEl, errFirst, requiredMsg[currentLang]);
+      hasError = true;
+    }
+    if (!phoneEl.value.trim()) {
+      showFieldError(phoneEl, errPhone, requiredMsg[currentLang]);
+      hasError = true;
+    }
+    if (hasError) {
+      /* Scroll to first error */
+      const firstBad = form.querySelector('.fi-error');
+      if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
 
     /* Collect all field values in order */
     const inputs     = form.querySelectorAll('input, select, textarea');
@@ -1388,6 +1468,16 @@
     /* Redirect to thank-you page */
     window.location.href = 'thank-you.html';
   }
+
+  /* Clear error on input */
+  document.addEventListener('DOMContentLoaded', () => {
+    const firstNameEl = document.getElementById('fi-firstname');
+    const phoneEl     = document.getElementById('fi-phone');
+    const errFirst    = document.getElementById('err-firstname');
+    const errPhone    = document.getElementById('err-phone');
+    if (firstNameEl) firstNameEl.addEventListener('input', () => clearFieldError(firstNameEl, errFirst));
+    if (phoneEl)     phoneEl.addEventListener('input',     () => clearFieldError(phoneEl, errPhone));
+  });
 
   /* ── Smooth scroll with nav offset ── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
