@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شكراً — Surmedia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300..900&family=Inter:ital,opsz,wght@0,14..32,100..900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #FFFFFF;
+      --bg-1:      #F4F7FF;
+      --bg-2:      #EBF0FF;
+      --text:      #0F172A;
+      --orange:    #2563EB;
+      --orange-lt: #3B82F6;
+      --green:     #059669;
+      --border:    rgba(37,99,235,0.12);
+      --shadow:    0 4px 24px rgba(37,99,235,0.10);
+      --shadow-lg: 0 8px 48px rgba(37,99,235,0.14);
+      --w60: rgba(15,23,42,0.60);
+      --w40: rgba(15,23,42,0.40);
+      --r: 14px; --r-lg: 20px; --r-xl: 28px;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cairo', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-1); }
+    ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+    /* ── NAV ── */
+    .nav {
+      height: 72px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 40px;
+      background: rgba(255,255,255,0.90);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 1.35rem; font-weight: 900; letter-spacing: -0.04em;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.88rem; font-weight: 600; color: var(--w60);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--orange); }
+
+    /* ── BACKGROUND ── */
+    .page-bg {
+      position: fixed; inset: 0; z-index: 0; overflow: hidden;
+      background: linear-gradient(160deg,#FFFFFF 0%,#F0F5FF 50%,#E8EFFF 100%);
+    }
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); animation: blobFloat 12s ease-in-out infinite;
+    }
+    .blob-1 { width: 700px; height: 700px; background: radial-gradient(circle,rgba(37,99,235,0.10) 0%,transparent 70%); top: -200px; right: -100px; }
+    .blob-2 { width: 500px; height: 500px; background: radial-gradient(circle,rgba(96,165,250,0.10) 0%,transparent 70%); bottom: -150px; left: -100px; animation-delay: 5s; }
+    @keyframes blobFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(20px,-20px) scale(1.05); }
+      66%      { transform: translate(-15px,15px) scale(0.97); }
+    }
+    .grid-overlay {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(37,99,235,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.04) 1px,transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%);
+    }
+
+    /* ── MAIN ── */
+    main {
+      position: relative; z-index: 1;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 60px 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-lg);
+      padding: 64px 56px;
+      max-width: 640px; width: 100%;
+      text-align: center;
+      animation: cardIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(32px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1);    }
+    }
+
+    /* ── SUCCESS ICON ── */
+    .success-ring {
+      width: 96px; height: 96px; border-radius: 50%;
+      background: rgba(5,150,105,0.08);
+      border: 2px solid rgba(5,150,105,0.25);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 32px;
+      animation: ringPop 0.6s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes ringPop {
+      from { opacity: 0; transform: scale(0.5); }
+      to   { opacity: 1; transform: scale(1);   }
+    }
+    .success-ring svg {
+      width: 44px; height: 44px;
+      animation: checkDraw 0.5s 0.5s ease both;
+    }
+    @keyframes checkDraw {
+      from { opacity: 0; transform: scale(0.6) rotate(-20deg); }
+      to   { opacity: 1; transform: scale(1)   rotate(0deg);   }
+    }
+
+    /* ── EMOJI ── */
+    .emoji {
+      font-size: 3rem; display: block; margin-bottom: 8px;
+      animation: emojiBounce 0.6s 0.8s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes emojiBounce {
+      from { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+      to   { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    /* ── ARABIC TEXT ── */
+    .ar-title {
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      font-weight: 900; letter-spacing: normal;
+      line-height: 1.4; color: var(--text);
+      margin-bottom: 12px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .ar-sub {
+      font-size: 1rem; color: var(--w60);
+      line-height: 1.9; margin-bottom: 36px;
+      animation: fadeUp 0.6s 0.5s ease both;
+    }
+
+    /* ── DIVIDER ── */
+    .lang-divider {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 36px;
+      animation: fadeUp 0.6s 0.6s ease both;
+    }
+    .lang-divider::before, .lang-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+    .lang-divider span {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--w40);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── ENGLISH TEXT ── */
+    .en-title {
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.3; color: var(--text);
+      margin-bottom: 12px; font-family: 'Inter', sans-serif;
+      direction: ltr;
+      animation: fadeUp 0.6s 0.65s ease both;
+    }
+    .en-sub {
+      font-size: 0.95rem; color: var(--w60);
+      line-height: 1.75; margin-bottom: 40px;
+      font-family: 'Inter', sans-serif; direction: ltr;
+      animation: fadeUp 0.6s 0.72s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── BUTTONS ── */
+    .btn-group {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.8s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: var(--r);
+      font-weight: 700; font-size: 0.92rem; text-decoration: none;
+      cursor: pointer; transition: all 0.3s var(--ease); border: none;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--orange); color: #fff;
+      box-shadow: 0 4px 24px rgba(37,99,235,0.28);
+    }
+    .btn-primary:hover { background: var(--orange-lt); transform: translateY(-2px); box-shadow: 0 8px 40px rgba(37,99,235,0.38); }
+    .btn-ghost {
+      background: transparent; color: var(--w60);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); background: rgba(37,99,235,0.04); }
+
+    /* ── RESPONSE TIME BADGE ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(5,150,105,0.07); border: 1px solid rgba(5,150,105,0.22);
+      border-radius: 100px; padding: 8px 18px;
+      font-size: 0.8rem; font-weight: 600; color: var(--green);
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s 0.55s ease both;
+    }
+    .badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 22px 40px; background: rgba(255,255,255,0.70);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo { font-size: 1rem; font-weight: 900; letter-spacing: -0.04em; color: var(--text); }
+    .footer-logo span { color: var(--orange); }
+    .footer-copy { font-size: 0.75rem; color: var(--w40); font-family: 'Inter', sans-serif; }
+
+    @media (max-width: 640px) {
+      .card { padding: 40px 24px; }
+      .nav  { padding: 0 18px; }
+      footer { padding: 18px; flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="page-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo"><span>SUR</span>MEDIA</a>
+    <a href="index.html" class="nav-back">← العودة للرئيسية &nbsp;/&nbsp; Back to home</a>
+  </nav>
+
+  <!-- Main -->
+  <main>
+    <div class="card">
+
+      <!-- Icon -->
+      <div class="success-ring">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="20" stroke="#059669" stroke-width="2" fill="rgba(5,150,105,0.06)"/>
+          <path d="M12 22L19 29L32 15" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- Arabic -->
+      <span class="emoji">🎉</span>
+      <h1 class="ar-title">تم استلام معلوماتك بنجاح!</h1>
+      <p class="ar-sub">أحد أعضاء فريقنا سيتواصل معك قريبًا،<br />تأكد فقط من أن هاتفك متاح.</p>
+
+      <!-- Response badge -->
+      <div class="badge">
+        <div class="badge-dot"></div>
+        نرد خلال 4 ساعات &nbsp;·&nbsp; We respond within 4 hours
+      </div>
+
+      <!-- Divider -->
+      <div class="lang-divider"><span>EN</span></div>
+
+      <!-- English -->
+      <h2 class="en-title">Your information has been received successfully! 🎉</h2>
+      <p class="en-sub">One of our team members will contact you shortly,<br />so please keep your phone available.</p>
+
+      <!-- Buttons -->
+      <div class="btn-group">
+        <a href="index.html" class="btn btn-primary">← العودة / Back to Home</a>
+        <a href="index.html#results" class="btn btn-ghost">نتائجنا / Our Results</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo"><span>SUR</span>MEDIA</div>
+    <p class="footer-copy">© 2026 Surmedia. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

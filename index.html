@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سورميديا — نحن نأتي لك بالنتائج</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════
+       DESIGN TOKENS — WHITE & BLUR THEME
+    ══════════════════════════════════════ */
+    :root {
+      --bg:   #FFFFFF;
+      --bg-1: #F4F7FF;
+      --bg-2: #EBF0FF;
+      --text: #0F172A;
+      --w80: rgba(15,23,42,0.80);
+      --w60: rgba(15,23,42,0.60);
+      --w40: rgba(15,23,42,0.40);
+      --w20: rgba(15,23,42,0.20);
+      --w10: rgba(15,23,42,0.10);
+      --w06: rgba(15,23,42,0.06);
+      --w03: rgba(15,23,42,0.03);
+      --white: #FFFFFF;
+      --orange:    #2563EB;
+      --orange-lt: #3B82F6;
+      --orange-dk: #1D4ED8;
+      --o-glow:    rgba(37,99,235,0.18);
+      --o-glow-sm: rgba(37,99,235,0.08);
+      --violet:    #1E3A8A;
+      --v-glow:    rgba(30,58,138,0.12);
+      --green:     #059669;
+      --g-glow:    rgba(5,150,105,0.15);
+      --border:    rgba(37,99,235,0.12);
+      --border-h:  rgba(37,99,235,0.35);
+      --shadow-sm: 0 2px 12px rgba(37,99,235,0.08);
+      --shadow:    0 4px 24px rgba(37,99,235,0.10);
+      --shadow-lg: 0 8px 48px rgba(37,99,235,0.14);
+      --r-sm: 8px; --r: 14px; --r-lg: 20px; --r-xl: 28px;
+      --max: 1200px;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+      --t: all 0.3s var(--ease);
+    }
+
+    /* ══════════════════════════════════════
+       RESET & BASE
+    ══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: 'Cairo', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    html[lang="en"] body, html[lang="fr"] body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-feature-settings: 'cv01','cv02','ss01';
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-1); }
+    ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+    /* ══════════════════════════════════════
+       UTILITIES
+    ══════════════════════════════════════ */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+    .sp { padding: 120px 0; }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 18px;
+    }
+    .tag::before {
+      content: ''; display: block; width: 18px; height: 1px; background: var(--orange);
+    }
+    [dir="rtl"] .tag::before { display: none; }
+    [dir="rtl"] .tag::after {
+      content: ''; display: block; width: 18px; height: 1px; background: var(--orange);
+    }
+
+    .section-title {
+      font-size: clamp(2rem,4vw,3rem);
+      font-weight: 900; letter-spacing: -0.04em; line-height: 1.08;
+      color: var(--text);
+    }
+    html[lang="ar"] .section-title { letter-spacing: normal; }
+    .section-sub { color: var(--w60); font-size: 1.05rem; max-width: 520px; line-height: 1.78; margin-top: 14px; }
+    html[lang="ar"] .section-sub { line-height: 1.9; }
+
+    .gt {
+      background: linear-gradient(135deg,#2563EB 0%,#60A5FA 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 30px; border-radius: var(--r);
+      font-weight: 700; font-size: 0.95rem; text-decoration: none;
+      cursor: pointer; transition: var(--t); border: none;
+      position: relative; overflow: hidden;
+    }
+    .btn-orange {
+      background: var(--orange); color: #FFFFFF;
+      box-shadow: var(--shadow);
+    }
+    .btn-orange::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%);
+      transform: translateX(-100%); transition: transform 0.5s ease;
+    }
+    .btn-orange:hover { background: var(--orange-lt); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .btn-orange:hover::before { transform: translateX(100%); }
+    .btn-ghost {
+      border: 1.5px solid var(--border); color: var(--w80); background: transparent;
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); background: rgba(37,99,235,0.05); }
+
+    /* ══════════════════════════════════════
+       LANGUAGE SWITCHER
+    ══════════════════════════════════════ */
+    .lang-switch {
+      display: flex; gap: 3px;
+      background: rgba(37,99,235,0.06); border: 1px solid var(--border);
+      border-radius: 10px; padding: 3px;
+    }
+    .lang-btn {
+      padding: 5px 11px; border-radius: 7px; border: none;
+      background: transparent; font-size: 0.72rem; font-weight: 700;
+      color: var(--w60); cursor: pointer; transition: var(--t);
+      letter-spacing: 0.06em; font-family: inherit;
+    }
+    .lang-btn.active { background: var(--orange); color: #fff; box-shadow: var(--shadow-sm); }
+    .lang-btn:hover:not(.active) { color: var(--orange); background: rgba(37,99,235,0.08); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+
+    /* ══════════════════════════════════════
+       NAV
+    ══════════════════════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      height: 72px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 40px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .nav-logo {
+      font-size: 1.35rem; font-weight: 900; letter-spacing: -0.04em;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--w60); text-decoration: none;
+      font-size: 0.88rem; font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; overflow: hidden; padding: 120px 0 80px;
+      background: linear-gradient(160deg,#FFFFFF 0%,#F0F5FF 50%,#E8EFFF 100%);
+    }
+    .hero-bg { position: absolute; inset: 0; overflow: hidden; }
+
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); animation: blobFloat 12s ease-in-out infinite;
+      will-change: transform;
+    }
+    .blob-1 { width: 800px; height: 800px; background: radial-gradient(circle,rgba(37,99,235,0.10) 0%,transparent 70%); top: -250px; right: -150px; animation-delay: 0s; }
+    .blob-2 { width: 550px; height: 550px; background: radial-gradient(circle,rgba(96,165,250,0.12) 0%,transparent 70%); bottom: -150px; left: -120px; animation-delay: 5s; }
+    .blob-3 { width: 400px; height: 400px; background: radial-gradient(circle,rgba(30,58,138,0.07) 0%,transparent 70%); top: 45%; left: 28%; animation-delay: 9s; }
+    @keyframes blobFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(30px,-30px) scale(1.06); }
+      66%      { transform: translate(-20px,20px) scale(0.96); }
+    }
+
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(37,99,235,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.05) 1px,transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%);
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: var(--max); margin: 0 auto; padding: 0 32px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(37,99,235,0.07); border: 1px solid rgba(37,99,235,0.20);
+      border-radius: 100px; padding: 8px 20px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 28px;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--orange);
+      animation: pulse 2s ease-in-out infinite; flex-shrink: 0;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.75)} }
+
+    .hero-title {
+      font-size: clamp(2.6rem,5.5vw,5rem);
+      font-weight: 900; letter-spacing: -0.05em; line-height: 1.0;
+      margin-bottom: 24px; color: var(--text);
+    }
+    html[lang="ar"] .hero-title { letter-spacing: normal; line-height: 1.28; }
+    .hero-title .t2 {
+      display: block;
+      background: linear-gradient(135deg,#2563EB 0%,#60A5FA 45%,#3B82F6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub { color: var(--w60); font-size: 1.05rem; line-height: 1.78; margin-bottom: 40px; max-width: 460px; }
+    html[lang="ar"] .hero-sub { line-height: 1.95; font-size: 1rem; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .hero-note { margin-top: 22px; display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--w40); }
+    .hero-note-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+    .hero-right { display: flex; flex-direction: column; gap: 16px; }
+
+    .hcard {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(37,99,235,0.14);
+      border-radius: var(--r-lg); padding: 24px 28px;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+      animation: floatCard 7s ease-in-out infinite;
+      will-change: transform;
+    }
+    .hcard::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg,rgba(37,99,235,0.04) 0%,transparent 60%);
+    }
+    .hcard:nth-child(2) { animation-delay: 2.3s; }
+    .hcard:nth-child(3) { animation-delay: 4.6s; }
+    @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    .hcard-label { font-size: 0.72rem; color: var(--w40); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+    html[lang="ar"] .hcard-label { text-transform: none; letter-spacing: 0; font-size: 0.78rem; }
+    .hcard-value { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.05em; color: var(--text); }
+    html[lang="ar"] .hcard-value { letter-spacing: normal; font-size: 2rem; }
+    .hcard-sub   { font-size: 0.78rem; color: var(--green); font-weight: 600; margin-top: 4px; }
+    .hcard-meta  { font-size: 0.78rem; color: var(--w40); margin-top: 4px; }
+
+    /* ══════════════════════════════════════
+       PLATFORMS MARQUEE
+    ══════════════════════════════════════ */
+    .platforms {
+      padding: 56px 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--bg-1); overflow: hidden;
+    }
+    .platforms-label {
+      text-align: center; font-size: 0.74rem; color: var(--w40);
+      font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 32px;
+    }
+    html[lang="ar"] .platforms-label { text-transform: none; letter-spacing: 0; font-size: 0.85rem; }
+    .marquee-wrap { position: relative; overflow: hidden; }
+    .marquee-wrap::before, .marquee-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 2;
+    }
+    .marquee-wrap::before { left: 0; background: linear-gradient(90deg,var(--bg-1) 0%,transparent 100%); }
+    .marquee-wrap::after  { right: 0; background: linear-gradient(-90deg,var(--bg-1) 0%,transparent 100%); }
+    .marquee-track { display: flex; width: max-content; animation: marquee 24s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    .pi {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 32px; margin: 0 8px;
+      background: rgba(255,255,255,0.80); border: 1px solid var(--border);
+      border-radius: var(--r); white-space: nowrap;
+      backdrop-filter: blur(12px); box-shadow: var(--shadow-sm);
+      transition: var(--t); cursor: default;
+    }
+    .pi:hover { border-color: var(--border-h); box-shadow: var(--shadow); transform: translateY(-2px); }
+    .pi-logo { width: 28px; height: 28px; object-fit: contain; display: block; }
+    .pi-name { font-size: 0.9rem; font-weight: 700; color: var(--w80); }
+
+    /* ══════════════════════════════════════
+       STATS
+    ══════════════════════════════════════ */
+    .stats-sec { background: var(--bg); }
+    .stats-head { text-align: center; margin-bottom: 68px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+
+    .stat-card {
+      background: rgba(255,255,255,0.80); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 44px 28px;
+      text-align: center; position: relative; overflow: hidden;
+      backdrop-filter: blur(16px); box-shadow: var(--shadow-sm); transition: var(--t);
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg,transparent,var(--orange),transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .stat-card:hover { border-color: rgba(37,99,235,0.28); transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .stat-card:hover::before { opacity: 1; }
+    .stat-glow {
+      position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 80px; background: var(--o-glow); filter: blur(30px); border-radius: 50%;
+    }
+    .stat-num {
+      font-size: 3rem; font-weight: 900; letter-spacing: -0.05em; line-height: 1;
+      background: linear-gradient(135deg,#2563EB 0%,#60A5FA 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 8px;
+    }
+    .stat-lbl { font-size: 0.82rem; color: var(--w40); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    html[lang="ar"] .stat-lbl { text-transform: none; letter-spacing: 0; font-size: 0.88rem; }
+
+    /* ══════════════════════════════════════
+       SERVICES
+    ══════════════════════════════════════ */
+    .svc-head { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 68px; }
+    .svc-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+
+    .svc-card {
+      background: rgba(255,255,255,0.80); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 36px 30px;
+      backdrop-filter: blur(16px); box-shadow: var(--shadow-sm);
+      position: relative; overflow: hidden; transition: var(--t); cursor: default;
+    }
+    .svc-card::after {
+      content: ''; position: absolute; inset: -1px; border-radius: var(--r-lg);
+      background: linear-gradient(135deg,rgba(37,99,235,0.30),transparent,rgba(37,99,235,0.15));
+      opacity: 0; transition: opacity 0.4s; z-index: 0;
+    }
+    .svc-card > * { position: relative; z-index: 1; }
+    .svc-card:hover { transform: translateY(-6px); border-color: transparent; box-shadow: var(--shadow-lg); }
+    .svc-card:hover::after { opacity: 1; }
+
+    .svc-icon {
+      width: 50px; height: 50px; border-radius: 13px;
+      background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.18);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 22px; font-size: 1.35rem;
+    }
+    .svc-card h3 { font-size: 1.12rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; color: var(--text); }
+    html[lang="ar"] .svc-card h3 { letter-spacing: normal; }
+    .svc-card p  { font-size: 0.88rem; color: var(--w60); line-height: 1.68; }
+    html[lang="ar"] .svc-card p { line-height: 1.9; }
+    .svc-tag { display: inline-block; margin-top: 16px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); }
+    html[lang="ar"] .svc-tag { text-transform: none; letter-spacing: 0; font-size: 0.8rem; }
+
+    /* ══════════════════════════════════════
+       RESULTS / PROOF
+    ══════════════════════════════════════ */
+    .results-sec { background: var(--bg-1); }
+    .results-head { text-align: center; margin-bottom: 68px; }
+    .results-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+
+    .rc {
+      background: rgba(255,255,255,0.90); border: 1px solid var(--border);
+      border-radius: var(--r-lg); overflow: hidden;
+      backdrop-filter: blur(16px); box-shadow: var(--shadow-sm); transition: var(--t);
+    }
+    .rc:hover { border-color: rgba(37,99,235,0.28); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+    .rc-head {
+      padding: 12px 16px; background: rgba(248,250,255,0.90); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .bdots { display: flex; gap: 5px; }
+    .bdots span { width: 9px; height: 9px; border-radius: 50%; }
+    .bdots span:nth-child(1) { background: #FF5F57; }
+    .bdots span:nth-child(2) { background: #FFBD2E; }
+    .bdots span:nth-child(3) { background: #28C940; }
+    .burl {
+      flex: 1; background: rgba(37,99,235,0.06); border-radius: 5px;
+      padding: 4px 10px; font-size: 0.7rem; color: var(--w40); font-family: monospace;
+    }
+
+    .rc-metrics {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+      padding: 14px 16px; border-bottom: 1px solid var(--border);
+    }
+    .mc { text-align: center; padding: 10px 6px; background: rgba(37,99,235,0.04); border-radius: 8px; }
+    .mc-val { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.03em; color: var(--orange); }
+    html[lang="ar"] .mc-val { letter-spacing: normal; }
+    .mc-lbl { font-size: 0.65rem; color: var(--w40); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.3; }
+    html[lang="ar"] .mc-lbl { text-transform: none; letter-spacing: 0; font-size: 0.6rem; }
+
+    .rc-ph {
+      height: 200px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      background: repeating-linear-gradient(45deg,rgba(37,99,235,0.02),rgba(37,99,235,0.02) 10px,rgba(37,99,235,0.04) 10px,rgba(37,99,235,0.04) 20px);
+    }
+    .ph-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(37,99,235,0.08); border: 1px dashed rgba(37,99,235,0.25);
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .rc-ph p { font-size: 0.74rem; color: var(--w40); text-align: center; line-height: 1.5; }
+
+    /* ══════════════════════════════════════
+       PROCESS
+    ══════════════════════════════════════ */
+    .proc-sec { background: var(--bg); }
+    .proc-head { text-align: center; margin-bottom: 80px; }
+    .proc-head .section-sub { margin: 14px auto 0; text-align: center; }
+
+    .proc-steps { display: grid; grid-template-columns: repeat(4,1fr); position: relative; }
+    .proc-steps::before {
+      content: ''; position: absolute; top: 35px; left: 14%; right: 14%; height: 1px;
+      background: linear-gradient(90deg,transparent,var(--border),rgba(37,99,235,0.20),var(--border),transparent);
+    }
+    [dir="rtl"] .proc-steps::before { display: none; }
+    .proc-step { text-align: center; padding: 0 20px; }
+    .proc-num {
+      width: 70px; height: 70px; border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,0.90); backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 26px; font-size: 1.05rem; font-weight: 800; color: var(--orange);
+      position: relative; z-index: 1; transition: var(--t);
+    }
+    .proc-step:hover .proc-num {
+      border-color: var(--orange); background: rgba(37,99,235,0.06);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.08), var(--shadow);
+    }
+    .proc-step h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; color: var(--text); }
+    html[lang="ar"] .proc-step h3 { letter-spacing: normal; }
+    .proc-step p  { font-size: 0.84rem; color: var(--w60); line-height: 1.62; }
+    html[lang="ar"] .proc-step p { line-height: 1.9; }
+
+    /* ══════════════════════════════════════
+       FINAL CTA
+    ══════════════════════════════════════ */
+    .cta-sec { background: var(--bg-1); position: relative; overflow: hidden; }
+    .cta-blob-wrap { position: absolute; inset: 0; pointer-events: none; }
+    .cta-blob-1 { position: absolute; top: -200px; left: -120px; width: 650px; height: 650px; background: radial-gradient(circle,rgba(37,99,235,0.08) 0%,transparent 70%); border-radius: 50%; }
+    .cta-blob-2 { position: absolute; bottom: -200px; right: -120px; width: 550px; height: 550px; background: radial-gradient(circle,rgba(30,58,138,0.06) 0%,transparent 70%); border-radius: 50%; }
+
+    .cta-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .cta-headline { font-size: clamp(2rem,4vw,3rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.08; margin-bottom: 18px; color: var(--text); }
+    html[lang="ar"] .cta-headline { letter-spacing: normal; line-height: 1.3; }
+    .cta-desc { color: var(--w60); font-size: 1rem; line-height: 1.78; margin-bottom: 28px; }
+    html[lang="ar"] .cta-desc { line-height: 1.95; }
+
+    .scarcity {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(5,150,105,0.07); border: 1px solid rgba(5,150,105,0.22);
+      border-radius: 100px; padding: 9px 18px;
+      font-size: 0.82rem; font-weight: 600; color: var(--green);
+    }
+    .scarcity-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.6s ease-in-out infinite; flex-shrink: 0; }
+
+    .cta-perks { display: flex; flex-direction: column; gap: 13px; margin-top: 28px; }
+    .cta-perk { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; color: var(--w80); }
+    [dir="rtl"] .cta-perk { flex-direction: row-reverse; }
+    .perk-chk {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; color: var(--green);
+    }
+
+    /* Form */
+    .cta-form {
+      background: rgba(255,255,255,0.85); border: 1px solid var(--border);
+      border-radius: var(--r-xl); padding: 42px 38px;
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-lg);
+    }
+    .form-title    { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 5px; color: var(--text); }
+    html[lang="ar"] .form-title { letter-spacing: normal; }
+    .form-subtitle { font-size: 0.82rem; color: var(--w40); margin-bottom: 28px; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .fg { display: flex; flex-direction: column; gap: 5px; }
+    .fg.full { grid-column: 1/-1; }
+    .fg label { font-size: 0.76rem; font-weight: 600; color: var(--w60); letter-spacing: 0.04em; }
+    html[lang="ar"] .fg label { letter-spacing: 0; font-size: 0.82rem; }
+    .fi {
+      background: rgba(255,255,255,0.90); border: 1px solid var(--border);
+      border-radius: var(--r-sm); padding: 11px 14px;
+      color: var(--text); font-size: 0.9rem; font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none; width: 100%;
+    }
+    .fi::placeholder { color: rgba(15,23,42,0.28); }
+    .fi:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(37,99,235,0.10); }
+    select.fi option { background: #fff; color: var(--text); }
+
+    .btn-submit {
+      width: 100%; border: none; cursor: pointer;
+      background: linear-gradient(135deg,#2563EB 0%,#3B82F6 100%);
+      color: #FFFFFF; padding: 15px;
+      border-radius: var(--r); font-size: 0.98rem; font-weight: 800;
+      transition: var(--t); box-shadow: 0 4px 24px rgba(37,99,235,0.30); margin-top: 4px;
+      font-family: inherit;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(37,99,235,0.40); }
+    .form-privacy { text-align: center; font-size: 0.7rem; color: var(--w40); margin-top: 14px; }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer { border-top: 1px solid var(--border); padding: 44px 0; background: var(--bg); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-size: 1.1rem; font-weight: 900; letter-spacing: -0.04em; color: var(--text); }
+    .footer-logo span { color: var(--orange); }
+    .footer-copy { font-size: 0.78rem; color: var(--w40); }
+    .footer-links { display: flex; gap: 26px; }
+    .footer-links a { font-size: 0.8rem; color: var(--w60); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--orange); }
+
+    /* ══════════════════════════════════════
+       MID-SECTION CTA STRIP
+    ══════════════════════════════════════ */
+    .mid-cta {
+      background: linear-gradient(135deg,rgba(37,99,235,0.05) 0%,rgba(96,165,250,0.04) 100%);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex; align-items: center; justify-content: center; gap: 24px;
+      flex-wrap: wrap; text-align: center;
+    }
+    .mid-cta-text {
+      font-size: 1rem; font-weight: 600; color: var(--w60);
+    }
+    html[lang="ar"] .mid-cta-text { font-size: 1.05rem; }
+    .mid-cta .btn { padding: 11px 26px; font-size: 0.88rem; }
+    [dir="rtl"] .mid-cta { flex-direction: row-reverse; }
+    @media (max-width: 768px) {
+      .mid-cta { flex-direction: column; gap: 14px; padding: 24px 18px; }
+      [dir="rtl"] .mid-cta { flex-direction: column; }
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .svc-grid   { grid-template-columns: repeat(2,1fr); }
+      .proc-steps { grid-template-columns: repeat(2,1fr); gap: 40px; }
+      .proc-steps::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 18px; }
+      .sp { padding: 80px 0; }
+      .nav { padding: 0 18px; }
+      .nav-links { display: none; }
+      .hero-content { grid-template-columns: 1fr; gap: 48px; }
+      .hero-right { display: none; }
+      .svc-head  { grid-template-columns: 1fr; gap: 20px; }
+      .svc-grid  { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .cta-inner { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+      .proc-steps { grid-template-columns: 1fr; gap: 36px; }
+      .lang-btn { padding: 4px 8px; font-size: 0.68rem; }
+    }
+
+    .fu { opacity: 0; transform: translateY(32px); }
+    .si { opacity: 0; transform: translateY(28px); }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════ NAV ══════════════════ -->
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-logo"><span>SUR</span>MEDIA</a>
+    <ul class="nav-links">
+      <li><a href="#services" data-i18n="nav.services">خدماتنا</a></li>
+      <li><a href="#results"  data-i18n="nav.results">النتائج</a></li>
+      <li><a href="#process"  data-i18n="nav.process">آلية عملنا</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ar" onclick="setLang('ar')">AR</button>
+        <button class="lang-btn"        data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn"        data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
+      <a href="#apply" class="btn btn-orange" data-i18n="nav.cta">احجز مكالمة ←</a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <div class="eyebrow-dot"></div>
+          <span data-i18n="hero.eyebrow">وكالة متخصصة في الإعلانات الممولة</span>
+        </div>
+        <h1 class="hero-title" data-i18n="hero.title">
+          نحن لا ندير فقط الإعلانات.<br />
+          <span class="t2">نحن نأتي لك بالنتائج.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero.sub">
+          تساعد سورميديا علامات التجارة الإلكترونية على النمو والتوسع عبر إعلانات ميتا، تيك توك، وجوجل بدقة واحترافية. نحن لا نعتمد فقط على إطلاق الإعلانات، بل نقوم ببناء استراتيجيات تسويقية مدروسة، واختبار مختلف الزوايا الإعلانية، وتوسيع الحملات المربحة لتحقيق أفضل النتائج الممكنة.
+        </p>
+        <div class="hero-cta">
+          <a href="#apply"   class="btn btn-orange" data-i18n="hero.cta1">احجز إستشارة مجانية →</a>
+          <a href="#results" class="btn btn-ghost"  data-i18n="hero.cta2">شاهد نتائجنا</a>
+        </div>
+        <div class="hero-note">
+          <div class="hero-note-dot"></div>
+          <span data-i18n="hero.note">نستقبل حالياً عملاء جدداً — متبقية 3 أماكن فقط هذا الشهر</span>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hcard">
+          <div class="hcard-label" data-i18n="hero.card1.label">الربح العائد على الإنفاق الإعلاني (ROAS)</div>
+          <div class="hcard-value gt">4.2×</div>
+          <div class="hcard-sub"   data-i18n="hero.card1.sub">↑ أعلى من متوسط السوق</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-label" data-i18n="hero.card2.label">إجمالي ميزانية الإعلانات المُدارة شهرياً</div>
+          <div class="hcard-value"  data-i18n="hero.card2.value">1.2 مليون درهم</div>
+          <div class="hcard-meta"  data-i18n="hero.card2.meta">عبر الحسابات النشطة</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-label" data-i18n="hero.card3.label">العلامات التجارية التي ساعدناها على التوسع</div>
+          <div class="hcard-value">120<span style="font-size:1.4rem;color:var(--orange)">+</span></div>
+          <div class="hcard-sub"   data-i18n="hero.card3.sub">↑ معدل احتفاظ بالعملاء 98%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ PLATFORMS ══════════════════ -->
+  <section class="platforms">
+    <p class="platforms-label" data-i18n="platforms.label">نُشغّل إعلاناتك حيث يتواجد زبناؤك</p>
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <!-- Set 1 -->
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 5C25.15 5 5 25.15 5 50C5 72.6 21.6 91.3 43.3 94.5V62.9H31.3V50H43.3V39.6C43.3 27.8 50.3 21.4 60.9 21.4C65.9 21.4 71.2 22.3 71.2 22.3V34H65.3C59.5 34 57.7 37.5 57.7 41.2V50H70.6L68.6 62.9H57.7V94.5C79.4 91.3 95 72.6 95 50C95 25.15 74.85 5 50 5Z" fill="#1877F2"/>
+          </svg>
+          <span class="pi-name">Meta Ads</span>
+        </div>
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="20" fill="#010101"/>
+            <path d="M68 20H55V64C55 69.5 50.5 74 45 74C39.5 74 35 69.5 35 64C35 58.5 39.5 54 45 54C46.1 54 47.1 54.2 48 54.5V41.3C47 41.1 46 41 45 41C32 41 21 52 21 65C21 78 32 89 45 89C58 89 69 78 69 65V44C73.5 47.3 79.1 49.2 85 49.2V36.2C76 36.2 68 28.9 68 20Z" fill="white"/>
+          </svg>
+          <span class="pi-name">TikTok Ads</span>
+        </div>
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M78 52.5C78 50.5 77.8 48.6 77.5 46.8H50V57.6H65.7C64.9 61.7 62.5 65.1 59 67.3V74.3H68.8C74.6 69 78 61.5 78 52.5Z" fill="#4285F4"/>
+            <path d="M50 81C57.9 81 64.6 78.4 68.8 74.3L59 67.3C56.5 68.9 53.4 70 50 70C42.4 70 35.9 64.7 33.7 57.6H23.6V64.8C27.8 73.2 38.2 81 50 81Z" fill="#34A853"/>
+            <path d="M33.7 57.6C33.2 55.9 32.9 54.1 32.9 52.2C32.9 50.3 33.2 48.5 33.7 46.8V39.6H23.6C21.6 43.6 20.5 48 20.5 52.2C20.5 56.4 21.6 60.8 23.6 64.8L33.7 57.6Z" fill="#FBBC05"/>
+            <path d="M50 34.4C53.7 34.4 57 35.8 59.5 38.2L69.1 28.6C64.6 24.4 57.9 22 50 22C38.2 22 27.8 29.8 23.6 38.2L33.7 45.4C35.9 38.3 42.4 34.4 50 34.4Z" fill="#EA4335"/>
+          </svg>
+          <span class="pi-name">Google Ads</span>
+        </div>
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M62.5 10H37.5L20 40L37.5 90H62.5L80 40L62.5 10Z" fill="#96BF48"/>
+            <path d="M37.5 10L20 40L37.5 90L50 75L37.5 10Z" fill="#5E8E3E"/>
+            <path d="M50 25L37.5 10H62.5L50 25Z" fill="white" opacity="0.4"/>
+            <circle cx="50" cy="43" r="12" fill="white"/>
+            <path d="M50 37C46.7 37 44 39.7 44 43C44 46.3 46.7 49 50 49C53.3 49 56 46.3 56 43C56 39.7 53.3 37 50 37Z" fill="#96BF48"/>
+          </svg>
+          <span class="pi-name">Shopify</span>
+        </div>
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 5C25.15 5 5 25.15 5 50C5 72.6 21.6 91.3 43.3 94.5V62.9H31.3V50H43.3V39.6C43.3 27.8 50.3 21.4 60.9 21.4C65.9 21.4 71.2 22.3 71.2 22.3V34H65.3C59.5 34 57.7 37.5 57.7 41.2V50H70.6L68.6 62.9H57.7V94.5C79.4 91.3 95 72.6 95 50C95 25.15 74.85 5 50 5Z" fill="#1877F2"/>
+          </svg>
+          <span class="pi-name">Meta Ads</span>
+        </div>
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="20" fill="#010101"/>
+            <path d="M68 20H55V64C55 69.5 50.5 74 45 74C39.5 74 35 69.5 35 64C35 58.5 39.5 54 45 54C46.1 54 47.1 54.2 48 54.5V41.3C47 41.1 46 41 45 41C32 41 21 52 21 65C21 78 32 89 45 89C58 89 69 78 69 65V44C73.5 47.3 79.1 49.2 85 49.2V36.2C76 36.2 68 28.9 68 20Z" fill="white"/>
+          </svg>
+          <span class="pi-name">TikTok Ads</span>
+        </div>
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M78 52.5C78 50.5 77.8 48.6 77.5 46.8H50V57.6H65.7C64.9 61.7 62.5 65.1 59 67.3V74.3H68.8C74.6 69 78 61.5 78 52.5Z" fill="#4285F4"/>
+            <path d="M50 81C57.9 81 64.6 78.4 68.8 74.3L59 67.3C56.5 68.9 53.4 70 50 70C42.4 70 35.9 64.7 33.7 57.6H23.6V64.8C27.8 73.2 38.2 81 50 81Z" fill="#34A853"/>
+            <path d="M33.7 57.6C33.2 55.9 32.9 54.1 32.9 52.2C32.9 50.3 33.2 48.5 33.7 46.8V39.6H23.6C21.6 43.6 20.5 48 20.5 52.2C20.5 56.4 21.6 60.8 23.6 64.8L33.7 57.6Z" fill="#FBBC05"/>
+            <path d="M50 34.4C53.7 34.4 57 35.8 59.5 38.2L69.1 28.6C64.6 24.4 57.9 22 50 22C38.2 22 27.8 29.8 23.6 38.2L33.7 45.4C35.9 38.3 42.4 34.4 50 34.4Z" fill="#EA4335"/>
+          </svg>
+          <span class="pi-name">Google Ads</span>
+        </div>
+        <div class="pi">
+          <svg class="pi-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M62.5 10H37.5L20 40L37.5 90H62.5L80 40L62.5 10Z" fill="#96BF48"/>
+            <path d="M37.5 10L20 40L37.5 90L50 75L37.5 10Z" fill="#5E8E3E"/>
+            <path d="M50 25L37.5 10H62.5L50 25Z" fill="white" opacity="0.4"/>
+            <circle cx="50" cy="43" r="12" fill="white"/>
+            <path d="M50 37C46.7 37 44 39.7 44 43C44 46.3 46.7 49 50 49C53.3 49 56 46.3 56 43C56 39.7 53.3 37 50 37Z" fill="#96BF48"/>
+          </svg>
+          <span class="pi-name">Shopify</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MID CTA 1 -->
+  <div class="mid-cta">
+    <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
+    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+  </div>
+
+  <!-- ══════════════════ STATS ══════════════════ -->
+  <section class="stats-sec sp" id="stats">
+    <div class="container">
+      <div class="stats-head fu">
+        <div class="tag" data-i18n="stats.tag">الأرقام</div>
+        <h2 class="section-title" data-i18n="stats.title">نتائج <span class="gt">تتحدث عن نفسها</span></h2>
+      </div>
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card si">
+          <div class="stat-glow"></div>
+          <div class="stat-num"><span class="counter" data-prefix="" data-to="1" data-suffix="M+ DH">0M+ DH</span></div>
+          <div class="stat-lbl" data-i18n="stats.lbl1">إجمالي الإنفاق الإعلاني شهرياً</div>
+        </div>
+        <div class="stat-card si">
+          <div class="stat-glow"></div>
+          <div class="stat-num"><span class="counter" data-prefix="" data-to="4.2" data-suffix="×" data-float="1">0×</span></div>
+          <div class="stat-lbl" data-i18n="stats.lbl2">متوسط الربح العائد على الإنفاق الإعلاني</div>
+        </div>
+        <div class="stat-card si">
+          <div class="stat-glow"></div>
+          <div class="stat-num"><span class="counter" data-prefix="" data-to="120" data-suffix="+">0+</span></div>
+          <div class="stat-lbl" data-i18n="stats.lbl3">علامة تجارية تم تطويرها وتوسيعها</div>
+        </div>
+        <div class="stat-card si">
+          <div class="stat-glow"></div>
+          <div class="stat-num"><span class="counter" data-prefix="" data-to="98" data-suffix="%">0%</span></div>
+          <div class="stat-lbl" data-i18n="stats.lbl4">معدل الاحتفاظ بالعملاء</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MID CTA 2 -->
+  <div class="mid-cta">
+    <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
+    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+  </div>
+
+  <!-- ══════════════════ SERVICES ══════════════════ -->
+  <section class="sp" id="services">
+    <div class="container">
+      <div class="svc-head">
+        <div>
+          <div class="tag" data-i18n="svc.tag">ماذا نقدم</div>
+          <h2 class="section-title" data-i18n="svc.title">إعلانات مدفوعة <span class="gt">تُنمّي العلامات التجارية</span></h2>
+        </div>
+        <p class="section-sub" data-i18n="svc.sub">كل خدمة نقدمها مبنية على هدف واحد: تحقيق نمو مربح وقابل للتوسع لعلامات التجارة الإلكترونية الجاهزة للهيمنة على سوقها.</p>
+      </div>
+      <div class="svc-grid" id="svc-grid">
+        <div class="svc-card si">
+          <div class="svc-icon">🎯</div>
+          <h3 data-i18n="svc.1.title">إدارة إعلانات ميتا</h3>
+          <p  data-i18n="svc.1.desc">حملات فيسبوك وإنستغرام مصممة للتوسع وتحقيق أفضل النتائج. من استهداف العملاء الجدد إلى إعادة الاستهداف، ندير كل مراحل القمع التسويقي ونرفع العائد على الإنفاق الإعلاني يومياً.</p>
+          <div class="svc-tag" data-i18n="svc.1.tag">فيسبوك · إنستغرام · ريلز · ستوريز</div>
+        </div>
+        <div class="svc-card si">
+          <div class="svc-icon">🎵</div>
+          <h3 data-i18n="svc.2.title">إدارة إعلانات تيك توك</h3>
+          <p  data-i18n="svc.2.desc">إعلانات إبداعية تجذب الانتباه مع استهداف دقيق يستفيد من النمو الهائل لتيك توك. ندير حملاتك بالكامل من صناعة المحتوى إلى تحقيق التحويلات والمبيعات.</p>
+          <div class="svc-tag" data-i18n="svc.2.tag">TopFeed · Spark Ads · TikTok Shop</div>
+        </div>
+        <div class="svc-card si">
+          <div class="svc-icon">📊</div>
+          <h3 data-i18n="svc.3.title">التسويق الأدائي والاستراتيجية</h3>
+          <p  data-i18n="svc.3.desc">كل قرار نعتمده مبني على البيانات والتحليل. نختبر بسرعة، نوقف ما لا يحقق نتائج، ونضاعف الاستثمار فيما يحقق أرباحاً.</p>
+          <div class="svc-tag" data-i18n="svc.3.tag">اختبارات A/B · التحليلات · التتبع</div>
+        </div>
+        <div class="svc-card si">
+          <div class="svc-icon">💻</div>
+          <h3 data-i18n="svc.4.title">مواقع وصفحات بيع تحقق التحويلات</h3>
+          <p  data-i18n="svc.4.desc">صفحة هبوط أو متجر احترافي عالي التحويل هو أساس كل حملة إعلانية ناجحة. نقوم ببناء وتحسين الصفحات لتحويل الزوار إلى عملاء فعليين.</p>
+          <div class="svc-tag" data-i18n="svc.4.tag">صفحات الهبوط · Shopify · تحسين معدل التحويل</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MID CTA 3 -->
+  <div class="mid-cta">
+    <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
+    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+  </div>
+
+  <!-- ══════════════════ RESULTS / PROOF ══════════════════ -->
+  <section class="results-sec sp" id="results">
+    <div class="container">
+      <div class="results-head fu">
+        <div class="tag" data-i18n="results.tag">إثبات اجتماعي</div>
+        <h2 class="section-title" data-i18n="results.title">نتائج حقيقية. <span class="gt">علامات تجارية حقيقية.</span></h2>
+      </div>
+
+      <div class="results-grid" id="res-grid">
+        <!-- Result 1: Meta -->
+        <div class="rc si">
+          <div class="rc-head">
+            <div class="bdots"><span></span><span></span><span></span></div>
+            <div class="burl">ads.facebook.com/adsmanager</div>
+          </div>
+          <div class="rc-metrics">
+            <div class="mc">
+              <div class="mc-val" data-i18n="res.c1.v1">43</div>
+              <div class="mc-lbl" data-i18n="res.c1.l1">عميل محتمل</div>
+            </div>
+            <div class="mc">
+              <div class="mc-val" data-i18n="res.c1.v2">$62.23</div>
+              <div class="mc-lbl" data-i18n="res.c1.l2">ميزانية مُستهلكة</div>
+            </div>
+            <div class="mc">
+              <div class="mc-val" data-i18n="res.c1.v3">$1.45</div>
+              <div class="mc-lbl" data-i18n="res.c1.l3">تكلفة العميل</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result 2 -->
+        <div class="rc si">
+          <div class="rc-head">
+            <div class="bdots"><span></span><span></span><span></span></div>
+            <div class="burl">ads.tiktok.com/business</div>
+          </div>
+          <div class="rc-metrics">
+            <div class="mc">
+              <div class="mc-val" data-i18n="res.c2.v1">7,498</div>
+              <div class="mc-lbl" data-i18n="res.c2.l1">نقرة</div>
+            </div>
+            <div class="mc">
+              <div class="mc-val" data-i18n="res.c2.v2">1.68%</div>
+              <div class="mc-lbl" data-i18n="res.c2.l2">معدل النقر (CTR)</div>
+            </div>
+            <div class="mc">
+              <div class="mc-val" data-i18n="res.c2.v3">4.70%</div>
+              <div class="mc-lbl" data-i18n="res.c2.l3">معدل التحويل</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MID CTA 4 -->
+  <div class="mid-cta">
+    <span class="mid-cta-text" data-i18n="midcta.text">هل أنت مستعد للحصول على نتائج مثل هذه؟</span>
+    <a href="#apply" class="btn btn-orange" data-i18n="midcta.btn">احجز مكالمة مجانية →</a>
+  </div>
+
+  <!-- ══════════════════ PROCESS ══════════════════ -->
+  <section class="proc-sec sp" id="process">
+    <div class="container">
+      <div class="proc-head fu">
+        <div class="tag" data-i18n="proc.tag">كيف نعمل</div>
+        <h2 class="section-title" data-i18n="proc.title">من الانطلاق إلى <span class="gt">التوسع والأرباح</span></h2>
+        <p class="section-sub" data-i18n="proc.sub">منهجيتنا المجربة المكوّنة من 4 مراحل تساعد علامتك التجارية على الانتقال من التحليل إلى التوسع المربح خلال أقل من 30 يوماً.</p>
+      </div>
+      <div class="proc-steps" id="proc-steps">
+        <div class="proc-step si">
+          <div class="proc-num">01</div>
+          <h3 data-i18n="proc.1.title">تحليل شامل</h3>
+          <p  data-i18n="proc.1.desc">نقوم بتحليل كل شيء بدقة — الإعلانات، التتبع، القمع التسويقي، وهوامش الربح. لا نترك أي تفصيل دون مراجعة.</p>
+        </div>
+        <div class="proc-step si">
+          <div class="proc-num">02</div>
+          <h3 data-i18n="proc.2.title">استراتيجية النمو</h3>
+          <p  data-i18n="proc.2.desc">نضع لك خطة نمو لمدة 90 يوماً تشمل القنوات التسويقية، الميزانيات، استراتيجية المحتوى الإعلاني، ومؤشرات الأداء المستهدفة.</p>
+        </div>
+        <div class="proc-step si">
+          <div class="proc-num">03</div>
+          <h3 data-i18n="proc.3.title">الإطلاق والاختبار</h3>
+          <p  data-i18n="proc.3.desc">نطلق الحملات الإعلانية ونبدأ باختبار الإبداعات بسرعة، نحدد الإعلانات الرابحة خلال الأسبوع الأول، ونقوم بالتحسين بشكل يومي.</p>
+        </div>
+        <div class="proc-step si">
+          <div class="proc-num">04</div>
+          <h3 data-i18n="proc.4.title">التوسع بربحية</h3>
+          <p  data-i18n="proc.4.desc">بعد تحقيق أهداف العائد على الإنفاق الإعلاني، نقوم بتوسيع الميزانية بشكل مدروس للحفاظ على هامش الربح مع زيادة الإيرادات باستمرار.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ FINAL CTA ══════════════════ -->
+  <section class="cta-sec sp" id="apply">
+    <div class="cta-blob-wrap">
+      <div class="cta-blob-1"></div>
+      <div class="cta-blob-2"></div>
+    </div>
+    <div class="container">
+      <div class="cta-inner">
+
+        <div class="fu">
+          <div class="scarcity">
+            <div class="scarcity-dot"></div>
+            <span data-i18n="cta.scarcity">متبقية 3 أماكن فقط للعملاء هذا الشهر</span>
+          </div>
+          <h2 class="cta-headline" style="margin-top:26px;" data-i18n="cta.title">
+            هل أنت مستعد لجذب<br /><span class="gt">عملاء جدد لعلامتك؟</span>
+          </h2>
+          <p class="cta-desc" data-i18n="cta.desc">
+            احجز مكالمة استراتيجية مجانية لمدة 30 دقيقة. سنقوم بتحليل وضعك الحالي، تحديد أكبر فرصة للنمو، ونوضح لك بالضبط كيف سنستثمر ميزانيتك الإعلانية لتحقيق أفضل النتائج — بدون أي التزام أو ضغط للبيع.
+          </p>
+          <div class="cta-perks">
+            <div class="cta-perk"><div class="perk-chk">✓</div><span data-i18n="cta.perk1">خطة نمو مخصصة لمدة 90 يوماً</span></div>
+            <div class="cta-perk"><div class="perk-chk">✓</div><span data-i18n="cta.perk2">بدون أي التزام أو ضغط بيعي</span></div>
+            <div class="cta-perk"><div class="perk-chk">✓</div><span data-i18n="cta.perk3">نتائج مضمونة أو نعمل مجاناً</span></div>
+            <div class="cta-perk"><div class="perk-chk">✓</div><span data-i18n="cta.perk4">تدقيق مجاني لإعلاناتك الممولة</span></div>
+          </div>
+        </div>
+
+        <div class="cta-form fu">
+          <div class="form-title"    data-i18n="form.title">احجز مكالمتك الاستراتيجية</div>
+          <div class="form-subtitle" data-i18n="form.sub">لمعرفة معلومات أكثر، إملأ الاستمارة — نرد خلال 4 ساعات.</div>
+          <form id="applyForm" onsubmit="handleSubmit(event)">
+            <div class="form-grid">
+
+              <div class="fg">
+                <label data-i18n="form.firstname.label">الاسم الأول</label>
+                <input type="text" class="fi" data-i18n-ph="form.firstname.ph" placeholder="مثال: محمد" required />
+              </div>
+              <div class="fg">
+                <label data-i18n="form.phone.label">رقم الهاتف</label>
+                <input type="tel" class="fi" data-i18n-ph="form.phone.ph" placeholder="+212 6XX XXX XXX" required />
+              </div>
+
+              <div class="fg">
+                <label data-i18n="form.instagram.label">انستغرام النشاط التجاري</label>
+                <input type="text" class="fi" data-i18n-ph="form.instagram.ph" placeholder="@علامتك_التجارية" required />
+              </div>
+              <div class="fg">
+                <label data-i18n="form.website.label">الموقع الإلكتروني</label>
+                <input type="url" class="fi" data-i18n-ph="form.website.ph" placeholder="https://yourbrand.com" />
+              </div>
+
+              <div class="fg">
+                <label data-i18n="form.niche.label">ما هو مجالك؟</label>
+                <input type="text" class="fi" data-i18n-ph="form.niche.ph" placeholder="مثال: ملابس نسائية، مستحضرات تجميل..." />
+              </div>
+              <div class="fg">
+                <label data-i18n="form.budget.label">ميزانية الإعلانات الشهرية</label>
+                <select class="fi" id="budgetSelect" required>
+                  <option value="" disabled selected>اختر الميزانية</option>
+                  <option>أقل من 5,000 درهم/شهر</option>
+                  <option>5,000 – 20,000 درهم/شهر</option>
+                  <option>20,000 – 50,000 درهم/شهر</option>
+                  <option>50,000 – 200,000 درهم/شهر</option>
+                  <option>أكثر من 200,000 درهم/شهر</option>
+                </select>
+              </div>
+
+              <div class="fg full">
+                <label data-i18n="form.goal.label">ما هو هدفك في 30 يوماً القادمة؟</label>
+                <textarea class="fi" rows="3" style="resize:vertical" data-i18n-ph="form.goal.ph" placeholder="مثال: أريد الوصول إلى 100 طلب شهرياً، تخفيض تكلفة الاستحواذ..."></textarea>
+              </div>
+
+              <div class="fg full">
+                <button type="submit" class="btn-submit" data-i18n="form.submit">احجز مكالمتي المجانية →</button>
+              </div>
+            </div>
+          </form>
+          <p class="form-privacy" data-i18n="form.privacy">🔒 معلوماتك آمنة 100% ولن تُشارك مع أي جهة.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo"><span>SUR</span>MEDIA</div>
+        <p class="footer-copy" data-i18n="footer.copy">© 2026 Surmedia. جميع الحقوق محفوظة.</p>
+        <div class="footer-links">
+          <a href="#services" data-i18n="footer.services">خدماتنا</a>
+          <a href="#results"  data-i18n="footer.results">النتائج</a>
+          <a href="#apply"    data-i18n="footer.contact">تواصل معنا</a>
+          <a href="#"         data-i18n="footer.privacy">سياسة الخصوصية</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════ SCRIPTS ══════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script>
+  /* ════════════════════════════════════════════
+     TRANSLATIONS
+  ════════════════════════════════════════════ */
+  const i18n = {
+    ar: {
+      'page.title':       'سورميديا — نحن نأتي لك بالنتائج',
+      'nav.services':     'خدماتنا',
+      'nav.results':      'النتائج',
+      'nav.process':      'آلية عملنا',
+      'nav.cta':          'احجز مكالمة ←',
+      'hero.eyebrow':     'وكالة متخصصة في الإعلانات الممولة',
+      'hero.title':       'نحن لا ندير فقط الإعلانات.<br/><span class="t2">نحن نأتي لك بالنتائج.</span>',
+      'hero.sub':         'تساعد سورميديا علامات التجارة الإلكترونية على النمو والتوسع عبر إعلانات ميتا، تيك توك، وجوجل بدقة واحترافية. نحن لا نعتمد فقط على إطلاق الإعلانات، بل نقوم ببناء استراتيجيات تسويقية مدروسة، واختبار مختلف الزوايا الإعلانية، وتوسيع الحملات المربحة لتحقيق أفضل النتائج الممكنة.',
+      'hero.cta1':        'احجز إستشارة مجانية →',
+      'hero.cta2':        'شاهد نتائجنا',
+      'hero.note':        'نستقبل حالياً عملاء جدداً — متبقية 3 أماكن فقط هذا الشهر',
+      'hero.card1.label': 'الربح العائد على الإنفاق الإعلاني (ROAS)',
+      'hero.card1.sub':   '↑ أعلى من متوسط السوق',
+      'hero.card2.label': 'إجمالي ميزانية الإعلانات المُدارة شهرياً',
+      'hero.card2.value': '1.2 مليون درهم',
+      'hero.card2.meta':  'عبر الحسابات النشطة',
+      'hero.card3.label': 'العلامات التجارية التي ساعدناها على التوسع',
+      'hero.card3.sub':   '↑ معدل احتفاظ بالعملاء 98%',
+      'platforms.label':  'نُشغّل إعلاناتك حيث يتواجد زبناؤك',
+      'stats.tag':        'الأرقام',
+      'stats.title':      'نتائج <span class="gt">تتحدث عن نفسها</span>',
+      'stats.lbl1':       'إجمالي الإنفاق الإعلاني شهرياً',
+      'stats.lbl2':       'متوسط الربح العائد على الإنفاق الإعلاني',
+      'stats.lbl3':       'علامة تجارية تم تطويرها وتوسيعها',
+      'stats.lbl4':       'معدل الاحتفاظ بالعملاء',
+      'svc.tag':          'ماذا نقدم',
+      'svc.title':        'إعلانات مدفوعة <span class="gt">تُنمّي العلامات التجارية</span>',
+      'svc.sub':          'كل خدمة نقدمها مبنية على هدف واحد: تحقيق نمو مربح وقابل للتوسع لعلامات التجارة الإلكترونية الجاهزة للهيمنة على سوقها.',
+      'svc.1.title':      'إدارة إعلانات ميتا',
+      'svc.1.desc':       'حملات فيسبوك وإنستغرام مصممة للتوسع وتحقيق أفضل النتائج. من استهداف العملاء الجدد إلى إعادة الاستهداف، ندير كل مراحل القمع التسويقي ونرفع العائد على الإنفاق الإعلاني يومياً.',
+      'svc.1.tag':        'فيسبوك · إنستغرام · ريلز · ستوريز',
+      'svc.2.title':      'إدارة إعلانات تيك توك',
+      'svc.2.desc':       'إعلانات إبداعية تجذب الانتباه مع استهداف دقيق يستفيد من النمو الهائل لتيك توك. ندير حملاتك بالكامل من صناعة المحتوى إلى تحقيق التحويلات والمبيعات.',
+      'svc.2.tag':        'TopFeed · Spark Ads · TikTok Shop',
+      'svc.3.title':      'التسويق الأدائي والاستراتيجية',
+      'svc.3.desc':       'كل قرار نعتمده مبني على البيانات والتحليل. نختبر بسرعة، نوقف ما لا يحقق نتائج، ونضاعف الاستثمار فيما يحقق أرباحاً.',
+      'svc.3.tag':        'اختبارات A/B · التحليلات · التتبع',
+      'svc.4.title':      'مواقع وصفحات بيع تحقق التحويلات',
+      'svc.4.desc':       'صفحة هبوط أو متجر احترافي عالي التحويل هو أساس كل حملة إعلانية ناجحة. نقوم ببناء وتحسين الصفحات لتحويل الزوار إلى عملاء فعليين.',
+      'svc.4.tag':        'صفحات الهبوط · Shopify · تحسين معدل التحويل',
+      'results.tag':      'إثبات اجتماعي',
+      'results.title':    'نتائج حقيقية. <span class="gt">علامات تجارية حقيقية.</span>',
+      'res.c1.v1': '43',     'res.c1.l1': 'عميل محتمل',
+      'res.c1.v2': '$62.23', 'res.c1.l2': 'ميزانية مُستهلكة',
+      'res.c1.v3': '$1.45',  'res.c1.l3': 'تكلفة العميل',
+      'res.ph1':   'أضف هنا لقطة شاشة<br />من Meta Ads Manager',
+      'res.c2.v1': '7,498',  'res.c2.l1': 'نقرة',
+      'res.c2.v2': '1.68%',  'res.c2.l2': 'معدل النقر (CTR)',
+      'res.c2.v3': '4.70%',  'res.c2.l3': 'معدل التحويل',
+      'res.ph2':   'أضف هنا لقطة شاشة<br />من لوحة تحكم الإعلانات',
+      'proc.tag':     'كيف نعمل',
+      'proc.title':   'من الانطلاق إلى <span class="gt">التوسع والأرباح</span>',
+      'proc.sub':     'منهجيتنا المجربة المكوّنة من 4 مراحل تساعد علامتك التجارية على الانتقال من التحليل إلى التوسع المربح خلال أقل من 30 يوماً.',
+      'proc.1.title': 'تحليل شامل',
+      'proc.1.desc':  'نقوم بتحليل كل شيء بدقة — الإعلانات، التتبع، القمع التسويقي، وهوامش الربح. لا نترك أي تفصيل دون مراجعة.',
+      'proc.2.title': 'استراتيجية النمو',
+      'proc.2.desc':  'نضع لك خطة نمو لمدة 90 يوماً تشمل القنوات التسويقية، الميزانيات، استراتيجية المحتوى الإعلاني، ومؤشرات الأداء المستهدفة.',
+      'proc.3.title': 'الإطلاق والاختبار',
+      'proc.3.desc':  'نطلق الحملات الإعلانية ونبدأ باختبار الإبداعات بسرعة، نحدد الإعلانات الرابحة خلال الأسبوع الأول، ونقوم بالتحسين بشكل يومي.',
+      'proc.4.title': 'التوسع بربحية',
+      'proc.4.desc':  'بعد تحقيق أهداف العائد على الإنفاق الإعلاني، نقوم بتوسيع الميزانية بشكل مدروس للحفاظ على هامش الربح مع زيادة الإيرادات باستمرار.',
+      'cta.scarcity': 'متبقية 3 أماكن فقط للعملاء هذا الشهر',
+      'cta.title':    'هل أنت مستعد لجذب<br /><span class="gt">عملاء جدد لعلامتك؟</span>',
+      'cta.desc':     'احجز مكالمة استراتيجية مجانية لمدة 30 دقيقة. سنقوم بتحليل وضعك الحالي، تحديد أكبر فرصة للنمو، ونوضح لك بالضبط كيف سنستثمر ميزانيتك الإعلانية لتحقيق أفضل النتائج — بدون أي التزام أو ضغط للبيع.',
+      'cta.perk1':    'خطة نمو مخصصة لمدة 90 يوماً',
+      'cta.perk2':    'بدون أي التزام أو ضغط بيعي',
+      'cta.perk3':    'نتائج مضمونة أو نعمل مجاناً',
+      'cta.perk4':    'تدقيق مجاني لإعلاناتك الممولة',
+      'form.title':            'احجز مكالمتك الاستراتيجية',
+      'form.sub':              'لمعرفة معلومات أكثر، إملأ الاستمارة — نرد خلال 4 ساعات.',
+      'form.firstname.label':  'الاسم الأول',
+      'form.firstname.ph':     'مثال: محمد',
+      'form.phone.label':      'رقم الهاتف',
+      'form.phone.ph':         '+212 6XX XXX XXX',
+      'form.instagram.label':  'انستغرام النشاط التجاري',
+      'form.instagram.ph':     '@علامتك_التجارية',
+      'form.website.label':    'الموقع الإلكتروني',
+      'form.website.ph':       'https://yourbrand.com',
+      'form.niche.label':      'ما هو مجالك؟',
+      'form.niche.ph':         'مثال: ملابس نسائية، مستحضرات تجميل...',
+      'form.budget.label':     'ميزانية الإعلانات الشهرية',
+      'form.goal.label':       'ما هو هدفك في 30 يوماً القادمة؟',
+      'form.goal.ph':          'مثال: أريد الوصول إلى 100 طلب شهرياً، تخفيض تكلفة الاستحواذ...',
+      'form.submit':           'احجز مكالمتي المجانية →',
+      'form.privacy':          '🔒 معلوماتك آمنة 100% ولن تُشارك مع أي جهة.',
+      'form.success':          '✓ تم الاستلام — سنتواصل معك خلال 4 ساعات',
+      'midcta.text':     'هل أنت مستعد للحصول على نتائج مثل هذه؟',
+      'midcta.btn':      'احجز مكالمة مجانية →',
+      'footer.copy':     '© 2026 Surmedia. جميع الحقوق محفوظة.',
+      'footer.services': 'خدماتنا',
+      'footer.results':  'النتائج',
+      'footer.contact':  'تواصل معنا',
+      'footer.privacy':  'سياسة الخصوصية',
+      'budget.options':  ['اختر الميزانية','أقل من 5,000 درهم/شهر','5,000 – 20,000 درهم/شهر','20,000 – 50,000 درهم/شهر','50,000 – 200,000 درهم/شهر','أكثر من 200,000 درهم/شهر'],
+    },
+
+    fr: {
+      'page.title':       'Surmedia — Nous Générons des Résultats.',
+      'nav.services':     'Services',
+      'nav.results':      'Résultats',
+      'nav.process':      'Processus',
+      'nav.cta':          'Réserver un Appel →',
+      'hero.eyebrow':     'Agence de Marketing à la Performance',
+      'hero.title':       'Nous ne gérons pas des pubs.<br/><span class="t2">Nous générons des résultats.</span>',
+      'hero.sub':         'Surmedia propulse les marques e-commerce grâce à des publicités Meta, TikTok et Google ultra-ciblées. Nous ne devinons pas — nous testons, optimisons et scalons ce qui est rentable.',
+      'hero.cta1':        'Réserver un Appel Stratégique →',
+      'hero.cta2':        'Voir Nos Résultats',
+      'hero.note':        "Actuellement en cours d'acceptation — 3 places restantes ce mois-ci",
+      'hero.card1.label': 'ROAS Moyen Livré',
+      'hero.card1.sub':   '↑ Au-dessus de la moyenne du secteur',
+      'hero.card2.label': 'Budget Publicitaire Mensuel Géré',
+      'hero.card2.value': '1.2M DH',
+      'hero.card2.meta':  'Sur les comptes actifs',
+      'hero.card3.label': 'Marques Scalées',
+      'hero.card3.sub':   '↑ Taux de fidélisation de 98%',
+      'platforms.label':  'Nous diffusons vos pubs là où se trouvent vos clients',
+      'stats.tag':        'Les Chiffres',
+      'stats.title':      "Des Résultats Qui <span class='gt'>Parlent d'Eux-Mêmes</span>",
+      'stats.lbl1':       'Budget Publicitaire Géré',
+      'stats.lbl2':       'ROAS Moyen Livré',
+      'stats.lbl3':       'Marques Scalées',
+      'stats.lbl4':       'Taux de Fidélisation',
+      'svc.tag':          'Ce Que Nous Faisons',
+      'svc.title':        'Paid Media Qui <span class="gt">Scale les Marques</span>',
+      'svc.sub':          "Chaque service que nous offrons est conçu autour d'une chose : une croissance rentable et scalable pour les marques e-commerce prêtes à dominer leur marché.",
+      'svc.1.title':      'Gestion des Publicités Meta',
+      'svc.1.desc':       "Campagnes Facebook & Instagram conçues pour le scale. De la prospection au reciblage, nous gérons chaque niveau de votre funnel et maximisons votre ROAS chaque jour.",
+      'svc.1.tag':        'Facebook · Instagram · Reels · Stories',
+      'svc.2.title':      'Gestion des Publicités TikTok',
+      'svc.2.desc':       "Créatifs accrocheurs et ciblage de précision qui exploite la croissance explosive de TikTok. Nous gérons vos campagnes de la créa à la conversion.",
+      'svc.2.tag':        'TopFeed · Spark Ads · TikTok Shop',
+      'svc.3.title':      'Marketing à la Performance & Stratégie',
+      'svc.3.desc':       "Chaque décision est basée sur les données. Nous testons vite, arrêtons ce qui ne marche pas, et doublons la mise sur ce qui fonctionne.",
+      'svc.3.tag':        'A/B Testing · Analytics · Tracking',
+      'svc.4.title':      'Sites Web Qui Vendent',
+      'svc.4.desc':       "Une landing page ou une boutique à fort taux de conversion est la base de toute campagne pub rentable. Nous construisons et optimisons des pages qui transforment les clics en clients.",
+      'svc.4.tag':        'Landing Pages · Shopify · CRO',
+      'results.tag':      'Preuve Sociale',
+      'results.title':    'Vrais Résultats. <span class="gt">Vraies Marques.</span>',
+      'res.c1.v1': '43',     'res.c1.l1': 'Leads Générés',
+      'res.c1.v2': '$62.23', 'res.c1.l2': 'Budget Dépensé',
+      'res.c1.v3': '$1.45',  'res.c1.l3': 'Coût par Lead',
+      'res.ph1':   "Ajoutez ici une capture<br />d'écran de Meta Ads Manager",
+      'res.c2.v1': '7 498',  'res.c2.l1': 'Clics',
+      'res.c2.v2': '1,68%',  'res.c2.l2': 'Taux de Clic',
+      'res.c2.v3': '4,70%',  'res.c2.l3': 'Taux de Conv.',
+      'res.ph2':   "Ajoutez ici une capture<br />du tableau de bord Ads",
+      'proc.tag':     'Comment Ça Marche',
+      'proc.title':   'Du Jour 1 au <span class="gt">Scale</span>',
+      'proc.sub':     "Notre processus éprouvé en 4 étapes fait passer votre marque de l'audit au scale rentable en moins de 30 jours.",
+      'proc.1.title': 'Audit Approfondi',
+      'proc.1.desc':  'Nous analysons votre configuration actuelle — pubs, tracking, funnel et marges. Rien n\'est laissé au hasard.',
+      'proc.2.title': 'Stratégie de Croissance',
+      'proc.2.desc':  'Nous construisons votre roadmap 90 jours : canaux, budgets, stratégie créative et KPIs cibles.',
+      'proc.3.title': 'Lancement & Test',
+      'proc.3.desc':  'Les campagnes sont lancées. Nous testons vite, trouvons les gagnants dès la première semaine et optimisons chaque jour.',
+      'proc.4.title': 'Scaler avec Profit',
+      'proc.4.desc':  'Une fois les objectifs ROAS atteints, nous scalons les dépenses de manière systématique — en protégeant les marges tout en augmentant les revenus.',
+      'cta.scarcity': 'Seulement 3 places clients disponibles ce mois-ci',
+      'cta.title':    'Prêt à Scaler<br /><span class="gt">Votre Marque ?</span>',
+      'cta.desc':     "Réservez un appel stratégique gratuit de 30 minutes. Nous auditerons votre configuration actuelle, identifierons votre plus grand levier de croissance, et vous montrerons exactement ce que nous ferions avec votre budget pub — sans engagement, sans pression.",
+      'cta.perk1':    'Plan de croissance personnalisé 90 jours',
+      'cta.perk2':    'Sans engagement ni pression commerciale',
+      'cta.perk3':    'Résultats garantis ou nous travaillons gratuitement',
+      'cta.perk4':    'Audit paid media gratuit',
+      'form.title':            'Réservez Votre Appel Stratégique',
+      'form.sub':              'Nous répondons en moins de 4 heures.',
+      'form.firstname.label':  'Prénom',
+      'form.firstname.ph':     'Ex : Alex',
+      'form.phone.label':      'Numéro de Téléphone',
+      'form.phone.ph':         '+33 6 XX XX XX XX',
+      'form.instagram.label':  'Instagram Business',
+      'form.instagram.ph':     '@votrenomdemarque',
+      'form.website.label':    'Site Web',
+      'form.website.ph':       'https://votresite.com',
+      'form.niche.label':      'Votre Niche ?',
+      'form.niche.ph':         'Ex : Mode femme, cosmétiques bio...',
+      'form.budget.label':     'Budget Pub Mensuel',
+      'form.goal.label':       'Votre Objectif dans les 30 Prochains Jours ?',
+      'form.goal.ph':          'Ex : Atteindre 100 commandes/mois, réduire mon CPA...',
+      'form.submit':           'Réserver Mon Appel Gratuit →',
+      'form.privacy':          '🔒 Vos informations sont 100% sécurisées et jamais partagées.',
+      'form.success':          '✓ Reçu — nous vous contacterons dans les 4 heures',
+      'midcta.text':     'Prêt à obtenir des résultats similaires ?',
+      'midcta.btn':      'Réserver un Appel Gratuit →',
+      'footer.copy':     '© 2026 Surmedia. Tous droits réservés.',
+      'footer.services': 'Services',
+      'footer.results':  'Résultats',
+      'footer.contact':  'Contact',
+      'footer.privacy':  'Politique de Confidentialité',
+      'budget.options':  ['Sélectionner le budget','Moins de 5 000 DH/mois','5 000 – 20 000 DH/mois','20 000 – 50 000 DH/mois','50 000 – 200 000 DH/mois','200 000+ DH/mois'],
+    },
+
+    en: {
+      'page.title':       "Surmedia — We Don't Run Ads. We Run Results.",
+      'nav.services':     'Services',
+      'nav.results':      'Results',
+      'nav.process':      'Process',
+      'nav.cta':          'Book a Call →',
+      'hero.eyebrow':     'Performance Marketing Agency',
+      'hero.title':       "We Don't Run Ads.<br/><span class='t2'>We Run Results.</span>",
+      'hero.sub':         "Surmedia scales ecommerce brands with precision Meta, TikTok, and Google Ads. We don't guess — we test, optimize, and scale what's profitable.",
+      'hero.cta1':        'Book Strategy Call →',
+      'hero.cta2':        'See Our Results',
+      'hero.note':        'Currently accepting new clients — 3 spots remaining this month',
+      'hero.card1.label': 'Average ROAS Delivered',
+      'hero.card1.sub':   '↑ Above industry average',
+      'hero.card2.label': 'Monthly Ad Spend Managed',
+      'hero.card2.value': '1.2M DH',
+      'hero.card2.meta':  'Across active accounts',
+      'hero.card3.label': 'Brands Scaled',
+      'hero.card3.sub':   '↑ 98% client retention rate',
+      'platforms.label':  'We run ads where your customers are',
+      'stats.tag':        'The Numbers',
+      'stats.title':      'Results That Speak <span class="gt">For Themselves</span>',
+      'stats.lbl1':       'Ad Spend Managed',
+      'stats.lbl2':       'Average ROAS Delivered',
+      'stats.lbl3':       'Brands Scaled',
+      'stats.lbl4':       'Client Retention Rate',
+      'svc.tag':          'What We Do',
+      'svc.title':        'Paid Media That <span class="gt">Scales Brands</span>',
+      'svc.sub':          'Every service we offer is built around one thing: profitable, scalable growth for ecommerce brands ready to dominate their market.',
+      'svc.1.title':      'Meta Ads Management',
+      'svc.1.desc':       "Facebook & Instagram campaigns built for scale. From prospecting to retargeting, we manage every layer of your funnel and max your ROAS every single day.",
+      'svc.1.tag':        'Facebook · Instagram · Reels · Stories',
+      'svc.2.title':      'TikTok Ads Management',
+      'svc.2.desc':       "Scroll-stopping creatives and precision targeting that taps into TikTok's explosive growth. We manage your campaigns from creative to conversion.",
+      'svc.2.tag':        'TopFeed · Spark Ads · TikTok Shop',
+      'svc.3.title':      'Performance Marketing & Strategy',
+      'svc.3.desc':       "Every decision is backed by data. We test fast, kill what doesn't work, and double down on what does.",
+      'svc.3.tag':        'A/B Testing · Analytics · Tracking',
+      'svc.4.title':      'Websites That Sell',
+      'svc.4.desc':       'A high-converting landing page or store is the foundation of every profitable ad campaign. We build and optimize pages that turn clicks into customers.',
+      'svc.4.tag':        'Landing Pages · Shopify · CRO',
+      'results.tag':      'Social Proof',
+      'results.title':    'Real Results. <span class="gt">Real Brands.</span>',
+      'res.c1.v1': '43',     'res.c1.l1': 'Leads',
+      'res.c1.v2': '$62.23', 'res.c1.l2': 'Amount Spent',
+      'res.c1.v3': '$1.45',  'res.c1.l3': 'Cost per Lead',
+      'res.ph1':   'Add Meta Ads Manager<br />screenshot here',
+      'res.c2.v1': '7,498',  'res.c2.l1': 'Clicks',
+      'res.c2.v2': '1.68%',  'res.c2.l2': 'CTR',
+      'res.c2.v3': '4.70%',  'res.c2.l3': 'Conv. Rate',
+      'res.ph2':   'Add TikTok Ads Dashboard<br />screenshot here',
+      'proc.tag':     'How It Works',
+      'proc.title':   'From Day 1 to <span class="gt">Scaled</span>',
+      'proc.sub':     'Our proven 4-step process gets your brand from audit to profitable scale in under 30 days.',
+      'proc.1.title': 'Deep Audit',
+      'proc.1.desc':  'We tear apart your current setup — ads, tracking, funnel, and margins. No stone left unturned.',
+      'proc.2.title': 'Growth Strategy',
+      'proc.2.desc':  'We build your 90-day roadmap: channels, budgets, creative strategy, and target KPIs.',
+      'proc.3.title': 'Launch & Test',
+      'proc.3.desc':  'Campaigns go live. We test creatives fast, find winners in week one, and optimize daily.',
+      'proc.4.title': 'Scale Profitably',
+      'proc.4.desc':  'Once ROAS targets are hit, we scale spend systematically — protecting margins while growing revenue.',
+      'cta.scarcity': 'Only 3 client spots available this month',
+      'cta.title':    'Ready to Scale<br /><span class="gt">Your Brand?</span>',
+      'cta.desc':     "Book a free 30-minute strategy call. We'll audit your current setup, identify your biggest growth lever, and show you exactly what we'd do with your ad budget — no commitment, no pressure.",
+      'cta.perk1':    'Custom 90-day growth roadmap',
+      'cta.perk2':    'No commitment, no sales pressure',
+      'cta.perk3':    'Results guaranteed or we work for free',
+      'cta.perk4':    'Free paid media audit',
+      'form.title':            'Book Your Strategy Call',
+      'form.sub':              'We respond within 4 hours.',
+      'form.firstname.label':  'First Name',
+      'form.firstname.ph':     'Alex',
+      'form.phone.label':      'Phone Number',
+      'form.phone.ph':         '+1 (555) 000-0000',
+      'form.instagram.label':  'Business Instagram',
+      'form.instagram.ph':     '@yourbrand',
+      'form.website.label':    'Website',
+      'form.website.ph':       'https://yourbrand.com',
+      'form.niche.label':      "What's Your Niche?",
+      'form.niche.ph':         "e.g. Women's fashion, skincare...",
+      'form.budget.label':     'Monthly Ad Budget',
+      'form.goal.label':       "What's Your Goal in the Next 30 Days?",
+      'form.goal.ph':          'e.g. Reach 100 orders/month, lower my CPA below 80 DH...',
+      'form.submit':           'Book My Free Strategy Call →',
+      'form.privacy':          '🔒 Your information is 100% secure and never shared.',
+      'form.success':          "✓ Received — we'll reach out within 4 hours",
+      'midcta.text':     'Ready to get results like these?',
+      'midcta.btn':      'Book Your Free Strategy Call →',
+      'footer.copy':     '© 2026 Surmedia. All rights reserved.',
+      'footer.services': 'Services',
+      'footer.results':  'Results',
+      'footer.contact':  'Contact',
+      'footer.privacy':  'Privacy Policy',
+      'budget.options':  ['Select budget','Under 5K DH/mo','5K – 20K DH/mo','20K – 50K DH/mo','50K – 200K DH/mo','200K+ DH/mo'],
+    }
+  };
+
+  /* ════════════════════════════════════════════
+     LANGUAGE SWITCH
+  ════════════════════════════════════════════ */
+  let currentLang = 'ar';
+
+  function setLang(lang) {
+    currentLang = lang;
+    const html = document.documentElement;
+    html.lang = lang;
+    html.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+    document.title = i18n[lang]['page.title'] || 'Surmedia';
+
+    /* Update all text elements */
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const val = i18n[lang][el.dataset.i18n];
+      if (val !== undefined) el.innerHTML = val;
+    });
+
+    /* Update all placeholders */
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const val = i18n[lang][el.dataset.i18nPh];
+      if (val !== undefined) el.placeholder = val;
+    });
+
+    /* Rebuild budget select */
+    const sel = document.getElementById('budgetSelect');
+    if (sel) {
+      const opts = i18n[lang]['budget.options'] || [];
+      sel.innerHTML = opts.map((o, i) =>
+        `<option value="${i === 0 ? '' : o}"${i === 0 ? ' disabled selected' : ''}>${o}</option>`
+      ).join('');
+    }
+
+    /* Update active lang button */
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
+
+  /* ── Navbar scroll ── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50
+      ? 'rgba(255,255,255,0.96)'
+      : 'rgba(255,255,255,0.75)';
+  }, { passive: true });
+
+  /* ── Google Sheets Webhook ── */
+  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyoZbb-tO6SGQUQuIllJ9l1wqSsa_9rKAnr5wwW6jYJ5YWh6CfDm_D0qqvu3Au7gfN3/exec';
+
+  /* ── Form submit ── */
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn  = document.querySelector('.btn-submit');
+    const form = document.getElementById('applyForm');
+
+    /* Collect all field values in order */
+    const inputs     = form.querySelectorAll('input, select, textarea');
+    const fieldNames = ['firstName','phone','instagram','website','niche','budget','goal'];
+    const payload    = { language: currentLang, submittedAt: new Date().toISOString() };
+    inputs.forEach((el, i) => { if (fieldNames[i]) payload[fieldNames[i]] = el.value; });
+
+    /* Loading state */
+    const loadingLabel = { ar: '⏳ جاري الإرسال...', fr: '⏳ Envoi en cours...', en: '⏳ Sending...' };
+    btn.innerHTML = loadingLabel[currentLang] || '⏳ Sending...';
+    btn.disabled  = true;
+
+    /* POST to Apps Script webhook (no-cors = opaque response, data still lands) */
+    try {
+      await fetch(WEBHOOK_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body:    JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.warn('Webhook error:', err);
+    }
+
+    /* Redirect to thank-you page */
+    window.location.href = 'thank-you.html';
+  }
+
+  /* ── Smooth scroll with nav offset ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 76, behavior: 'smooth' });
+    });
+  });
+
+  /* ── GSAP ── */
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.timeline({ delay: 0.15 })
+      .from('.hero-eyebrow', { y: 22, opacity: 0, duration: 0.7, ease: 'power3.out' })
+      .from('.hero-title',   { y: 44, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.35')
+      .from('.hero-sub',     { y: 22, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+      .from('.hero-cta',     { y: 18, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+      .from('.hero-note',    { y: 14, opacity: 0, duration: 0.5, ease: 'power3.out' }, '-=0.3')
+      .from('.hcard',        { y: 30, opacity: 0, duration: 0.7, stagger: 0.14, ease: 'power3.out' }, '-=0.55');
+
+    gsap.utils.toArray('.fu').forEach(el => {
+      gsap.to(el, {
+        y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 86%', toggleActions: 'play none none none' }
+      });
+    });
+
+    ['#stats-grid','#svc-grid','#proc-steps','#res-grid'].forEach(sel => {
+      const container = document.querySelector(sel);
+      if (!container) return;
+      gsap.to(container.querySelectorAll('.si'), {
+        y: 0, opacity: 1, duration: 0.72, stagger: 0.09, ease: 'power3.out',
+        scrollTrigger: { trigger: container, start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    });
+
+    gsap.to('#apply .fu', {
+      y: 0, opacity: 1, duration: 0.9, stagger: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: '#apply', start: 'top 80%', toggleActions: 'play none none none' }
+    });
+
+    document.querySelectorAll('.counter').forEach(el => {
+      const to      = parseFloat(el.dataset.to);
+      const prefix  = el.dataset.prefix || '';
+      const suffix  = el.dataset.suffix || '';
+      const isFloat = el.dataset.float;
+      const obj     = { v: 0 };
+      gsap.to(obj, {
+        v: to, duration: 2.4, ease: 'power2.out',
+        onUpdate() {
+          el.innerHTML = prefix + (isFloat ? obj.v.toFixed(1) : Math.round(obj.v)) + suffix;
+        },
+        scrollTrigger: { trigger: el, start: 'top 82%', toggleActions: 'play none none none' }
+      });
+    });
+
+    gsap.to('.blob-1', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.blob-2', { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  } else {
+    document.querySelectorAll('.fu, .si').forEach(el => {
+      el.style.opacity = '1'; el.style.transform = 'none';
+    });
+  }
+
+  /* ── Init: Arabic default ── */
+  setLang('ar');
+  </script>
+
+</body>
+</html>
